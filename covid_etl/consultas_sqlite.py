@@ -7,20 +7,20 @@ CAMINHO_DB = "covid_etl/dados_covid.db"
 TABELA = "vacinacao"
 
 def carregar_dados_no_sqlite():
-    print("📥 Lendo dados transformados...")
+    print("Lendo dados transformados...")
     df = pd.read_csv(CAMINHO_CSV)
 
-    print("💾 Criando banco SQLite e carregando dados...")
+    print("Criando banco SQLite e carregando dados...")
     conn = sqlite3.connect(CAMINHO_DB)
     df.to_sql(TABELA, conn, if_exists="replace", index=False)
     conn.close()
-    print(f"✅ Dados carregados no banco: {CAMINHO_DB}")
+    print(f"Dados carregados no banco: {CAMINHO_DB}")
 
 def executar_consultas():
     conn = sqlite3.connect(CAMINHO_DB)
     cursor = conn.cursor()
 
-    print("\n📊 Consulta 1: Média de idade por tipo de vacina")
+    print("\nConsulta 1: Média de idade por tipo de vacina")
     consulta1 = """
         SELECT vacina, ROUND(AVG(idade)) AS media_idade
         FROM vacinacao
@@ -31,7 +31,7 @@ def executar_consultas():
     resultado1 = pd.read_sql_query(consulta1, conn)
     print(resultado1)
 
-    print("\n📊 Consulta 2: Quantidade de vacinas aplicadas por tipo")
+    print("\nConsulta 2: Quantidade de vacinas aplicadas por tipo")
     consulta2 = """
         SELECT vacina, COUNT(*) AS quantidade_aplicada
         FROM vacinacao

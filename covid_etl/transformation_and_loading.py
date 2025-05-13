@@ -4,7 +4,7 @@ from datetime import datetime
 
 DIRETORIO_DADOS = "covid_etl/dados_sus"
 
-# Lista de colunas que queremos analisar
+
 colunas_interesse = [
     "paciente_idade", 
     "paciente_enumsexo", 
@@ -27,17 +27,17 @@ def buscar_csv_mais_recente(diretorio):
     return os.path.join(diretorio, arquivos_ordenados[0])
 
 def transformar_dados(df):
-    print("🔧 Transformando dados...")
+    print("Transformando dados...")
 
-    # Verifica colunas disponíveis
+    
     colunas_faltando = [col for col in colunas_interesse if col not in df.columns]
     if colunas_faltando:
-        print(f"⚠️ Atenção: As seguintes colunas não foram encontradas no CSV e serão ignoradas: {colunas_faltando}")
+        print(f"Atenção: As seguintes colunas não foram encontradas no CSV e serão ignoradas: {colunas_faltando}")
     
     colunas_validas = [col for col in colunas_interesse if col in df.columns]
     df = df[colunas_validas]
 
-    # Renomear colunas para facilitar análise
+   
     df.rename(columns={
         "paciente_idade": "idade",
         "paciente_enumsexo": "sexo",
@@ -47,32 +47,26 @@ def transformar_dados(df):
         "vacina_dataAplicacao": "data_aplicacao"
     }, inplace=True)
 
-    # Normalização dos dados
-    if "sexo" in df.columns:
-        df["sexo"] = df["sexo"].map({
-            "M": "Masculino", 
-            "F": "Feminino", 
-            "I": "Não informado"
-        }).fillna("Não informado")
-
+    
+   
     if "data_aplicacao" in df.columns:
         df["data_aplicacao"] = pd.to_datetime(df["data_aplicacao"], errors='coerce')
 
     return df
 
 def pipeline():
-    print("🔍 Buscando arquivo mais recente...")
+    print("Buscando arquivo mais recente...")
     caminho_csv = buscar_csv_mais_recente(DIRETORIO_DADOS)
-    print(f"📄 Lendo dados de: {caminho_csv}")
+    print(f"Lendo dados de: {caminho_csv}")
     
     df = pd.read_csv(caminho_csv)
     df_transformado = transformar_dados(df)
 
-    # Salvar CSV transformado (opcional)
+    
     nome_saida = "dados_transformados.csv"
     caminho_saida = os.path.join(DIRETORIO_DADOS, nome_saida)
     df_transformado.to_csv(caminho_saida, index=False)
-    print(f"✅ Dados transformados salvos em: {caminho_saida}")
+    print(f"Dados transformados salvos em: {caminho_saida}")
 
 if __name__ == "__main__":
     pipeline()

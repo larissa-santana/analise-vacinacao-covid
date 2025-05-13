@@ -51,7 +51,6 @@ def grafico_media_idade_por_estado(df):
     # Calcula a média de idade por estado
     media_idade = df_filtrado.groupby("estado")["idade"].mean().sort_values(ascending=False)
 
-    # Plota gráfico de barras
     sns.barplot(x=media_idade.index, y=media_idade.values, palette="viridis")
     plt.title("Média de idade por estado (Top 10)")
     plt.xlabel("Estado")
@@ -63,15 +62,15 @@ def grafico_media_idade_por_estado(df):
 
 
 def main():
-    print("📊 Carregando dados do banco...")
+    print("Carregando dados do banco...")
     df = carregar_dados()
 
-    print("🔍 Exibindo análises...")
+    print("Exibindo análises...")
     grafico_idade_por_vacina(df)
     grafico_quantidade_vacinas(df)
     grafico_media_idade_por_estado(df)
 
-    print("✅ Análises finalizadas. Gráficos salvos na pasta covid_etl/")
+    print("Análises finalizadas. Gráficos salvos na pasta covid_etl/")
 
 if __name__ == "__main__":
     main()

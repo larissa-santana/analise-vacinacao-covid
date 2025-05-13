@@ -4,24 +4,23 @@ import os
 from datetime import datetime
 from requests.auth import HTTPBasicAuth
 
-# URL base da API
 url = "https://imunizacao-es.saude.gov.br/desc-imunizacao/_search"
 
-# Diretório para salvar os dados
+# Diretório 
 output_dir = "covid_etl/dados_sus"
 os.makedirs(output_dir, exist_ok=True)
 
-# Nome do arquivo com data de hoje
+# Nome do arquivo com data da extração
 hoje = datetime.today().strftime('%Y-%m-%d')
 output_file = os.path.join(output_dir, f"imunizacao_dados_{hoje}.csv")
 
-# Credenciais de acesso à API
+# Credenciais
 usuario = "imunizacao_public"
 senha = "qlto5t&7r_@+#Tlstigi"
 
-# Corpo da requisição para limitar os dados retornados (exemplo: 100 registros)
+
 payload = {
-    "size": 1000  # ajuste esse número para mais/menos registros
+    "size": 1000 
 }
 
 def extrair_dados_covid():
